@@ -3,12 +3,12 @@
 </div>
 
 <div align="center">
-    <b>API for a Pastebin clone written in JS and hapi.</b><br>
-    <a href="https://gitlab.com/DebilosTeam/QubestPaste/-/issues">Send bug report</a>
+    <b>API for a just Pastebin clone written in JS and hapi.</b><br>
+    <a href="https://gitlab.com/DebilosTeam/QubestNoteApiJs/-/issues">Send bug report</a>
     •
-    <a href="https://gitlab.com/DebilosTeam/QubestPaste#something-is-broken-right-now">Broked features</a>
+    <a href="https://gitlab.com/DebilosTeam/QubestNoteApiJs#something-is-broken-right-now">Broked features</a>
     •
-    <a href="https://gitlab.com/DebilosTeam/QubestPaste#licenses">Licenses</a>
+    <a href="https://gitlab.com/DebilosTeam/QubestNoteApiJs#licenses">Licenses</a>
 </div>
 
 
@@ -16,14 +16,14 @@
 - [X] Basic server
 - [X] Databases
 - [X] Account system (with password encryption and JWT tokens)
-- [ ] Text uploading and markdown support
+- [ ] Text uploading
 - [ ] Localization
 - [ ] Admin settings
 - [ ] Moderating system
 
 
 ## Documentation
-Will be soon
+Documentation can be fount [here](https://gitlab.com/DebilosTeam/QubestNoteApiJs/-/wikis/Home)
 
 
 ## Something is broken right now

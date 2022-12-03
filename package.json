@@ -1,0 +1,17 @@
+{
+  "name": "QubestNoteApiJs",
+  "version": "1.0.0",
+  "description": "API server for QubestNote made in JS and hapi",
+  "main": "index.js",
+  "author": "iamlolz",
+  "license": "MIT",
+  "dependencies": {
+    "@hapi/hapi": "^21.0.0",
+    "@hapi/jwt": "^3.0.0",
+    "bcrypt": "^5.1.0",
+    "glob": "^8.0.3",
+    "joi": "^17.7.0",
+    "mongoose": "^6.7.5",
+    "uuid": "^9.0.0"
+  }
+}

@@ -23,7 +23,7 @@
 
 
 ## Documentation
-Documentation can be fount [here](https://gitlab.com/DebilosTeam/QubestNoteApiJs/-/wikis/Home)
+Documentation can be found [here](https://gitlab.com/DebilosTeam/QubestNoteApiJs/-/wikis/Home)
 
 
 ## Something is broken right now

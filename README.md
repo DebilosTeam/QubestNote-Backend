@@ -18,7 +18,6 @@
 - [X] Account system (with password encryption and JWT tokens)
 - [ ] Two-factor authentification.
 - [ ] Text uploading
-- [ ] Localization
 - [ ] Admin settings
 - [ ] Moderating system
 

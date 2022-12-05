@@ -22,6 +22,7 @@ const issueToken = async (user) => {
 
 const verifyToken = async (artifacts, request, h) => {
     const usr = await user.findOne({ username: artifacts.decoded.payload.username });
+    if(!usr) return { isValid: false };
 
     if(usr.sessions.includes(artifacts.decoded.payload.session_id)) return { isValid: true, credentials: usr }
     return { isValid: false };

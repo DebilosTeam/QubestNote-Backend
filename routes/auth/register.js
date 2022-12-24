@@ -1,7 +1,6 @@
 const { user } = require("../../models");
 const { createUserSchema } = require("../../schemas");
-const { isUserUnique, hashPassword, issueToken } = require("../../utils");
-const Boom = require("@hapi/boom");
+const { isUserUnique, hashPassword, issueToken, errorResponse, successResponse } = require("../../utils");
 
 const register = async (request, h) => {   
     const newUser = new user({
@@ -11,15 +10,15 @@ const register = async (request, h) => {
     });
 
     const hash = await hashPassword(request.payload.password);
-    if(!hash) return Boom.internal();
+    if(!hash) return await errorResponse(h, 500, "unknown_error");
     newUser.password = hash;
 
     const savedUser = await newUser.save();
-    if(!savedUser) return Boom.internal();
+    if(!savedUser) return await errorResponse(h, 500, "unknown_error");
 
     const jwt = await issueToken(savedUser);
 
-    return { registered: true, token: jwt};
+    return await successResponse(h, { token: jwt });
 }
 
 module.exports = {
@@ -27,11 +26,9 @@ module.exports = {
     path: '/auth/register', 
     options: { 
         pre: [ { method: isUserUnique } ],
-        validate: { payload: createUserSchema },
+        validate: { payload: createUserSchema, failAction: async (request, h, err) => await errorResponse(h, 400, "bad_payload") },
         auth: false, 
-        payload: { 
-            multipart: true 
-        } 
+        payload: { allow: "application/json", failAction: async (request, h, err) => await errorResponse(h, 415, "bad_payload_format") } 
     }, 
     handler: register
 }

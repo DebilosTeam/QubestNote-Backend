@@ -1,7 +1,6 @@
-const Boom = require("@hapi/boom");
 const { user } = require("../../models");
 const { loginSchema } = require("../../schemas");
-const { comparePassword, issueToken } = require("../../utils");
+const { comparePassword, issueToken, errorResponse, successResponse } = require("../../utils");
 
 const login = async (request, h) => {
     const usr = await user.findOne({
@@ -11,27 +10,17 @@ const login = async (request, h) => {
         ]
     });
 
-    const error = Boom.unauthorized();
-    error.output.payload["authenticated"] = false;
+    let failure;
 
-    if(!usr) {
-        error.output.payload["reason"] = "user_not_found";
-        return error;
-    }
+    if(!usr) failure = "user_not_found";
 
     const passCheck = await comparePassword(request.payload.password, usr.password);
-    if(!passCheck) {
-        error.output.payload["reason"] = "bad_password";
-        return error;
-    }
+    if(!passCheck) failure = "bad_password";
 
     const jwt = await issueToken(usr);
-    if(!jwt) {
-        error.output.payload["reason"] = "user_disabled";
-        return error;
-    }
+    if(!jwt) failure = "user_disabled";
 
-    return { authenticated: true, token: jwt };
+    return (failure) ? await errorResponse(h, 401, failure) : await successResponse(h, { token: jwt })
 }
 
 module.exports = {
@@ -39,10 +28,8 @@ module.exports = {
     path: '/auth/login', 
     options: { 
         auth: false, 
-        validate: { payload: loginSchema },
-        payload: { 
-            multipart: true 
-        } 
+        validate: { payload: loginSchema, failAction: async (request, h, err) => await errorResponse(h, 400, "bad_payload") },
+        payload: { allow: "application/json", failAction: async (request, h, err) => await errorResponse(h, 415, "bad_payload_format") } 
     }, 
     handler: login
 }

@@ -1,5 +1,5 @@
 const { user } = require("../../models");
-const Boom = require("@hapi/boom");
+const { errorResponse } = require("../responses");
 
 const isUserUnique = async (request, h) => {
     const userCheck = await user.findOne({ 
@@ -11,11 +11,8 @@ const isUserUnique = async (request, h) => {
     
     if(!userCheck) return request.payload;
 
-    const error = Boom.badData();
-    error.output.payload["registered"] = false;
-    error.output.payload["failed"] = (userCheck.username === request.payload.username) ? "username" : "email";
-
-    return error;
+    return await errorResponse(h, 400, 
+        (userCheck.username === request.payload.username) ? "username_already_registered" : "email_already_registered");
 }
 
 module.exports = { isUserUnique };

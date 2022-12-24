@@ -1,9 +1,10 @@
 const { hashPassword, comparePassword } = require("./password");
+const { errorResponse, successResponse } = require("./responses");
 const { issueToken, verifyToken } = require("./user/jwt.utils");
 const { isUserUnique } = require("./user/unique.user");
 
 module.exports = { 
     hashPassword, comparePassword,
     issueToken, verifyToken,
-    isUserUnique,
+    isUserUnique, errorResponse, successResponse
 }

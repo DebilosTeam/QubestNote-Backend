@@ -2,9 +2,10 @@ const jwt = require("@hapi/jwt");
 const uuid = require("uuid");
 const { SESSION_SECRET_KEY } = require("../../config");
 const { user } = require("../../models");
+const { errorResponse } = require("../responses");
 
 const issueToken = async (user) => {
-    if(user.is_disabled) return undefined;
+    if(user.is_disabled) return false;
 
     const session_id = uuid.v4();
     user.sessions.push(session_id);
@@ -12,20 +13,16 @@ const issueToken = async (user) => {
 
     return jwt.token.generate({
         session_id: session_id,
-        username: user.username,
-        nickname: user.nickname,
-        email: user.email,
-        created_at: user.created_at,
-        role: user.role
+        username: user.username
     }, SESSION_SECRET_KEY);
 }
 
 const verifyToken = async (artifacts, request, h) => {
     const usr = await user.findOne({ username: artifacts.decoded.payload.username });
-    if(!usr) return { isValid: false };
+    if(!usr) return { response: await errorResponse(h, 401, "bad_token") };
 
-    if(usr.sessions.includes(artifacts.decoded.payload.session_id)) return { isValid: true, credentials: usr }
-    return { isValid: false };
+    if(usr.sessions.includes(artifacts.decoded.payload.session_id)) return { isValid: true, credentials: usr };
+    return { response: await errorResponse(h, 401, "bad_token") };
 }
 
 module.exports = { issueToken, verifyToken };

@@ -1,7 +1,7 @@
 const Hapi = require('@hapi/hapi');
 const jwt = require('@hapi/jwt');
 const { SESSION_SECRET_KEY } = require("./config");
-const { verifyToken } = require("./utils");
+const { verifyToken, errorResponse } = require("./utils");
 const glob = require('glob');
 const path = require('path');
 
@@ -34,7 +34,7 @@ const init = async () => {
             iss: false,
             sub: false,
         },
-        validate: verifyToken
+        validate: verifyToken,
     });
 
     server.auth.default('jwt');

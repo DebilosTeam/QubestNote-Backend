@@ -1,9 +1,9 @@
 <div align="center">
-<h1>QubestNote</h1>
+<h1>QubestNote API</h1>
 </div>
 
 <div align="center">
-    <b>API for a just Pastebin clone written in JS and hapi.</b><br>
+    <b>API for a QubestNote written in JS and hapi.</b><br>
     <a href="https://gitlab.com/DebilosTeam/QubestNoteApiJs/-/issues">Send bug report</a>
     •
     <a href="https://gitlab.com/DebilosTeam/QubestNoteApiJs#something-is-broken-right-now">Broked features</a>

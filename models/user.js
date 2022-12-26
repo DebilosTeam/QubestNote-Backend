@@ -20,10 +20,10 @@ const userModel = mongoose.Schema({
         type: String,
         required: true
     },
-    secret_key: {
-        type: String,
-        index: { unique: true }
-    },
+    // secret_key: {
+    //     type: String,
+    //     index: { unique: true }
+    // },
     role: {
         type: String,
         default: "user"

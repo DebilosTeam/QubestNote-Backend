@@ -4,11 +4,11 @@
 
 <div align="center">
     <b>API for a QubestNote written in JS and hapi.</b><br>
-    <a href="https://gitlab.com/DebilosTeam/QubestNoteApiJs/-/issues">Send bug report</a>
+    <a href="https://gitlab.com/DebilosTeam/QubestNote-API/-/issues">Send bug report</a>
     •
-    <a href="https://gitlab.com/DebilosTeam/QubestNoteApiJs#something-is-broken-right-now">Broked features</a>
+    <a href="https://gitlab.com/DebilosTeam/QubestNote-API#something-is-broken-right-now">Broked features</a>
     •
-    <a href="https://gitlab.com/DebilosTeam/QubestNoteApiJs#licenses">Licenses</a>
+    <a href="https://gitlab.com/DebilosTeam/QubestNote-API#licenses">Licenses</a>
 </div>
 
 
@@ -23,7 +23,7 @@
 
 
 ## Documentation
-Documentation can be found [here](https://gitlab.com/DebilosTeam/QubestNoteApiJs/-/wikis/Home)
+Documentation can be found [here](https://gitlab.com/DebilosTeam/QubestNote-API/-/wikis/Home)
 
 
 ## Something is broken right now
@@ -35,4 +35,4 @@ Feel free to fork this repo and make a pull request or create an issue, if you e
 
 
 ## License
-The project licensed under [MIT License](https://gitlab.com/DebilosTeam/QubestNoteApiJs/-/blob/main/LICENSE)
+The project licensed under [MIT License](https://gitlab.com/DebilosTeam/QubestNote-API/-/blob/main/LICENSE)

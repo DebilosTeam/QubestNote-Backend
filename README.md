@@ -16,7 +16,7 @@
 - [X] Basic server
 - [X] Databases
 - [X] Account system (with password encryption and JWT tokens)
-- [ ] Two-factor authentification.
+- [X] Two-factor authentification.
 - [ ] Text uploading
 - [ ] Email settings
 - [ ] Admin settings

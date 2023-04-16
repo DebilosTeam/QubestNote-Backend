@@ -7,8 +7,6 @@ const login = async (request, h) => {
 
     let failure;
 
-    if(!usr) failure = "user_not_found";
-
     if(!usr.twofa_enabled) failure = "2fa_not_enabled";
 
     const verified = speakeasy.totp.verify({

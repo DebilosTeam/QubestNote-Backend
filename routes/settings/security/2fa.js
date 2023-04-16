@@ -13,7 +13,7 @@ const twofa = async (request, h) => {
         return successResponse(h, { enabled: false });
     }
 
-    if (request.payload.firstCode && !usr.secret_key) return errorResponse(h, 425);
+    if (request.payload.firstCode && !usr.secret_key) return errorResponse(h, 425, "activation_not_started");
 
     if (request.payload.firstCode) {
         const verified = speakeasy.totp.verify({

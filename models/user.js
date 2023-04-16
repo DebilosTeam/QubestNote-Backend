@@ -20,10 +20,14 @@ const userModel = mongoose.Schema({
         type: String,
         required: true
     },
-    // secret_key: {
-    //     type: String,
-    //     index: { unique: true }
-    // },
+    secret_key: {
+         type: String,
+         default: null
+    },
+    twofa_enabled: {
+        type: Boolean,
+        default: false
+    },
     role: {
         type: String,
         default: "user"
@@ -33,13 +37,18 @@ const userModel = mongoose.Schema({
         type: Number
     },
     description: {
-        type: String
+        type: String,
+        default: "No description yet."
     },
     is_disabled: {
         default: false,
         type: Boolean
     },
     sessions: {
+        type: Array,
+        default: []
+    },
+    twofa_sessions: {
         type: Array,
         default: []
     }

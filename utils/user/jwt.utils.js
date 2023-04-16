@@ -8,8 +8,14 @@ const issueToken = async (user) => {
     if(user.is_disabled) return false;
 
     const session_id = uuid.v4();
-    user.sessions.push(session_id);
-    user.save();
+
+    if(user.twofa_enabled) {
+        user.twofa_sessions.push(session_id);
+        user.save();
+    } else {
+        user.sessions.push(session_id);
+        user.save();
+    }
 
     return jwt.token.generate({
         session_id: session_id,
@@ -21,7 +27,10 @@ const verifyToken = async (artifacts, request, h) => {
     const usr = await user.findOne({ username: artifacts.decoded.payload.username });
     if(!usr) return { response: await errorResponse(h, 401, "bad_token") };
 
+    if(request.path == "/auth/2fa" && usr.twofa_sessions.includes(artifacts.decoded.payload.session_id)) return { isValid: true, credentials: usr };
+
     if(usr.sessions.includes(artifacts.decoded.payload.session_id)) return { isValid: true, credentials: usr };
+
     return { response: await errorResponse(h, 401, "bad_token") };
 }
 

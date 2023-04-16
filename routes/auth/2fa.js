@@ -5,9 +5,7 @@ const speakeasy = require('speakeasy');
 const login = async (request, h) => {
     const usr = request.auth.credentials;
 
-    let failure;
-
-    if(!usr.twofa_enabled) failure = "2fa_not_enabled";
+    if(!usr.twofa_enabled) return await await errorResponse(h, 403, "totp_not_enabled");
 
     const verified = speakeasy.totp.verify({
         secret: usr.secret_key,

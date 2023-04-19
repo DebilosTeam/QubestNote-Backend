@@ -27,7 +27,7 @@ const verifyToken = async (artifacts, request, h) => {
     const usr = await user.findOne({ username: artifacts.decoded.payload.username });
     if(!usr) return { response: await errorResponse(h, 401, "bad_token") };
 
-    if(request.path == "/auth/2fa" && usr.twofa_sessions.includes(artifacts.decoded.payload.session_id)) return { isValid: true, credentials: usr };
+    if(request.path == "/auth/totp" && usr.twofa_sessions.includes(artifacts.decoded.payload.session_id)) return { isValid: true, credentials: usr };
 
     if(usr.sessions.includes(artifacts.decoded.payload.session_id)) return { isValid: true, credentials: usr };
 

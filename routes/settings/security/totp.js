@@ -30,12 +30,12 @@ const totp = async (request, h) => {
         return errorResponse(h, 409, "wrong_code");
     }
 
-    const secret = speakeasy.generateSecret({name: "QubestNote"});
+    const secret = speakeasy.generateSecret({name: `QubestNote (${usr.nickname})`});
     usr.secretKey = secret.base32;
     await usr.save();
 
     const qr = await QRcode.toDataURL(secret.otpauth_url);
-    return successResponse(h, { qrCode: qr });
+    return successResponse(h, { secret: secret.base32, qrCode: qr });
     
 }
 

@@ -20,17 +20,13 @@ const userModel = mongoose.Schema({
         type: String,
         required: true
     },
-    secret_key: {
+    secretKey: {
          type: String,
          default: null
     },
-    twofa_enabled: {
+    totpStatus: {
         type: Boolean,
         default: false
-    },
-    role: {
-        type: String,
-        default: "user"
     },
     created_at: {
         default: Math.floor((new Date()).getTime() / 1000),
@@ -40,7 +36,15 @@ const userModel = mongoose.Schema({
         type: String,
         default: "No description yet."
     },
-    is_disabled: {
+    isAdmin: {
+        type: Boolean,
+        default: false
+    },
+    isModerator: {
+        type: Boolean,
+        default: false
+    },
+    isDisabled: {
         default: false,
         type: Boolean
     },
@@ -48,7 +52,7 @@ const userModel = mongoose.Schema({
         type: Array,
         default: []
     },
-    twofa_sessions: {
+    totpSessions: {
         type: Array,
         default: []
     }

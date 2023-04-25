@@ -1,10 +1,10 @@
 const Joi = require("joi");
 
-const twofaSchema = Joi.alternatives().try(
+const totpSchema = Joi.alternatives().try(
     Joi.object(),
     Joi.object({
         firstCode: Number
     })
 )
 
-module.exports = { twofaSchema };
+module.exports = { totpSchema };

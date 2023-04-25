@@ -20,7 +20,7 @@ const login = async (request, h) => {
     const jwt = await issueToken(usr);
     if(!jwt) failure = "user_disabled";
 
-    return (failure) ? await errorResponse(h, 401, failure) : await successResponse(h, { twofa: usr.twofa_enabled, token: jwt });
+    return (failure) ? await errorResponse(h, 401, failure) : await successResponse(h, { totpStatus: usr.totpStatus, token: jwt });
 
 
 }

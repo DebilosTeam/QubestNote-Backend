@@ -1,6 +1,6 @@
 const { createUserSchema } = require("./auth/register");
 const { loginSchema } = require("./auth/login");
-const { twofaSchema } = require("./settings/security/2fa");
-const { twofaAuthSchema } = require("./auth/2fa");
+const { twofaSchema } = require("./settings/security/totp");
+const { twofaAuthSchema } = require("./auth/totp");
 
 module.exports = { createUserSchema, loginSchema, twofaAuthSchema, twofaSchema };

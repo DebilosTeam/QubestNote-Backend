@@ -1,37 +1,37 @@
-const { twofaSchema } = require("../../../schemas/");
+const { totpSchema } = require("../../../schemas");
 const { successResponse, errorResponse } = require("../../../utils");
 const speakeasy = require('speakeasy');
 const QRcode = require("qrcode");
 
-const twofa = async (request, h) => {
+const totp = async (request, h) => {
     const usr = request.auth.credentials;
     
-    if (usr.twofa_enabled) {
-        usr.twofa_enabled = false;
-        usr.secret_key = null;
+    if (usr.totpStatus) {
+        usr.totpStatus = false;
+        usr.secretKey = null;
         await usr.save();
         return successResponse(h, { enabled: false });
     }
 
-    if (request.payload.firstCode && !usr.secret_key) return errorResponse(h, 425, "activation_not_started");
+    if (request.payload.firstCode && !usr.secretKey) return errorResponse(h, 425, "activation_not_started");
 
     if (request.payload.firstCode) {
         const verified = speakeasy.totp.verify({
-            secret: usr.secret_key,
+            secret: usr.secretKey,
             encoding: "base32",
             token: request.payload.firstCode
         });
         if (verified) {
-            usr.twofa_enabled = true
+            usr.totpStatus = true
             await usr.save();
             return successResponse(h, { enabled: true });
         }
-        usr.secret_key = null;
+        usr.secretKey = null;
         return errorResponse(h, 409, "wrong_code");
     }
 
-    const secret = speakeasy.generateSecret();
-    usr.secret_key = secret.base32;
+    const secret = speakeasy.generateSecret({name: "QubestNote"});
+    usr.secretKey = secret.base32;
     await usr.save();
 
     const qr = await QRcode.toDataURL(secret.otpauth_url);
@@ -43,8 +43,8 @@ module.exports = {
     method: 'POST', 
     path: '/settings/security/totp',
     options: {
-        validate: { payload: twofaSchema, failAction: async (request, h, err) => await errorResponse(h, 400, "bad_payload") },
+        validate: { payload: totpSchema, failAction: async (request, h, err) => await errorResponse(h, 400, "bad_payload") },
         payload: { allow: "application/json", failAction: async (request, h, err) => await errorResponse(h, 415, "bad_payload_format") } 
     },
-    handler: twofa
+    handler: totp
 }

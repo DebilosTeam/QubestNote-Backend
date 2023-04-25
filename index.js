@@ -5,12 +5,13 @@ const { verifyToken, errorResponse } = require("./utils");
 const glob = require('glob');
 const path = require('path');
 
+
 require('./database');
 
 const init = async () => {
 
     const server = Hapi.server({
-        port: 3000,
+        port: 3001,
         host: '127.0.0.1',
         routes: {
             cors: {

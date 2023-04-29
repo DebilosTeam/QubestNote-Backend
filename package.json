@@ -1,9 +1,9 @@
 {
-  "name": "QubestNoteApiJs",
+  "name": "QubestNoteAPI",
   "version": "1.0.0",
   "description": "API server for QubestNote made in JS and hapi",
   "main": "index.js",
-  "author": "iamlolz",
+  "author": "DebilosTeam",
   "license": "MIT",
   "dependencies": {
     "@hapi/hapi": "^21.0.0",

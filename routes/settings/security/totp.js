@@ -36,7 +36,6 @@ const totp = async (request, h) => {
 
     const qr = await QRcode.toDataURL(secret.otpauth_url);
     return successResponse(h, { secret: secret.base32, qrCode: qr });
-    
 }
 
 module.exports = {

@@ -1,6 +1,7 @@
 const { createUserSchema } = require("./auth/register");
 const { loginSchema } = require("./auth/login");
-const { twofaSchema } = require("./settings/security/totp");
-const { twofaAuthSchema } = require("./auth/totp");
+const { totpSchema } = require("./settings/security/totp");
+const { totpAuthSchema } = require("./auth/totp");
+const { changePasswdSchema } = require("./settings/security/change-password")
 
-module.exports = { createUserSchema, loginSchema, twofaAuthSchema, twofaSchema };
+module.exports = { createUserSchema, loginSchema, totpSchema, totpAuthSchema, changePasswdSchema };

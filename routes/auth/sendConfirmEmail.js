@@ -3,7 +3,7 @@ const uuid = require("uuid");
 
 const { errorResponse, successResponse } = require("../../utils");
 
-const sendVerifyMail = async (request, h) => {
+const sendConfirmEmail = async (request, h) => {
     const usr = request.auth.credentials;
 
     if (usr.isEmailConfirmed) {
@@ -21,6 +21,6 @@ const sendVerifyMail = async (request, h) => {
 
 module.exports = {
     method: 'POST',
-    path: '/auth/send-mail',
-    handler: sendVerifyMail
+    path: '/auth/verify-email',
+    handler: sendConfirmEmail
 }

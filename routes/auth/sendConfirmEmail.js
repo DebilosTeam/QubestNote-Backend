@@ -1,5 +1,5 @@
 const mailsender = require("../../utils");
-const uuid = require("uuid");
+const { randomBytes } = require('crypto');
 
 const { errorResponse, successResponse } = require("../../utils");
 
@@ -10,11 +10,12 @@ const sendConfirmEmail = async (request, h) => {
         return errorResponse(h, 425, "E-Mail already confirmed")
     }
 
-    const token = uuid.v4();
+    const token = randomBytes(40).toString("hex");
     usr.confirmationToken = token;
     await usr.save();
 
-    mailsender.sendEmail('', `${usr.email}`, "Email confirmation", `${server.info.uri}/reset-password/${resetToken}`)
+    const url = `${request.url}/verify?token=${token}`;
+    mailsender.sendEmail('qn-dev@debilosempire.org', `${usr.email}`, "Email confirmation", `${url}`);
 
     return successResponse(h, { message: "Verification E-Mail sended!" })
 };

@@ -1,5 +1,4 @@
 const mailsender = require("../../utils");
-const uuid = require("uuid");
 
 const { errorResponse, successResponse } = require("../../utils");
 const { user } = require("../../models");

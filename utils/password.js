@@ -1,13 +1,12 @@
-const bcrypt = require("bcrypt");
+const argon2 = require("argon2");
 
 const hashPassword = async (password) => {
-    const salt = await bcrypt.genSalt(10);
-    const hash = await bcrypt.hash(password, salt);
+    const hash = await argon2.hash(password);
     return hash;
 }
 
 const comparePassword = async (password, hash) => {
-    return await bcrypt.compare(password, hash);
+    return await argon2.verify(hash, password);
 }
 
 module.exports = { hashPassword, comparePassword };

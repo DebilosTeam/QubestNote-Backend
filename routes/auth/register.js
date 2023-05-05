@@ -1,29 +1,43 @@
-const { user } = require("../../models");
+const prisma = require("../../database");
 const { createUserSchema } = require("../../schemas");
 const { isUserUnique, hashPassword, issueToken, errorResponse, successResponse } = require("../../utils");
 
-const register = async (request, h) => {   
-    const newUser = new user({
-        username: request.payload.username,
-        nickname: request.payload.username,
-        email: request.payload.email,
-    });
-
+const register = async (request, h) => {
     const hash = await hashPassword(request.payload.password);
     if(!hash) return await errorResponse(h, 500, "unknown_error");
-    newUser.password = hash;
 
-    const savedUser = await newUser.save();
-    if(!savedUser) return await errorResponse(h, 500, "unknown_error");
+    let newUser;
+    const user = await prisma.users.findFirst();
 
-    const jwt = await issueToken(savedUser);
+    if(!user) {
+        newUser = await prisma.users.create({
+            data: {
+                username: request.payload.username,
+                nickname: request.payload.username,
+                password: hash,
+                isAdmin: true,
+                email: request.payload.email,
+            },
+        });
+    } else {
+        newUser = await prisma.users.create({
+            data: {
+                username: request.payload.username,
+                nickname: request.payload.username,
+                password: hash,
+                email: request.payload.email,
+            },
+        });
+    }
+
+    const jwt = await issueToken(newUser);
 
     return await successResponse(h, { token: jwt });
 }
 
 module.exports = {
     method: 'POST', 
-    path: '/auth/register', 
+    path: '/auth/register',
     options: { 
         pre: [ { method: isUserUnique } ],
         validate: { payload: createUserSchema, failAction: async (request, h, err) => await errorResponse(h, 400, "bad_payload") },

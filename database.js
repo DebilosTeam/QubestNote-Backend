@@ -1,11 +1,6 @@
-const mongoose = require('mongoose');
-const config = require('./config');
+const { PrismaClient } = require("@prisma/client");
 
-require('./models');
+const prisma = new PrismaClient()
+console.log(`[LOG] Connection to database established.`)
 
-mongoose.connect(config.MONGODB_URL, {
-  useNewUrlParser: true
-}, (err) => {
-  if (err) throw err;
-  console.log("[LOG] Connection to MongoDB database established.");
-});
+module.exports = prisma;

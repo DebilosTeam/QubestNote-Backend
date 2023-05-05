@@ -1,37 +1,71 @@
 const jwt = require("@hapi/jwt");
 const uuid = require("uuid");
+
 const { SESSION_SECRET_KEY } = require("../../config");
-const { user } = require("../../models");
+const prisma = require("../../database");
 const { errorResponse } = require("../responses");
 
 const issueToken = async (user) => {
-    if(user.isDisabled) return false;
+    if (user.isDisabled) return false;
 
     const session_id = uuid.v4();
 
-    if(user.totpStatus) {
-        user.totpSessions.push(session_id);
-        user.save();
+    let session;
+    if (user.totpStatus) {
+        session = await prisma.totpSessions.create({
+            data: {
+                session_id: session_id,
+                user: { connect: { id: user.id } },
+            },
+        });
     } else {
-        user.sessions.push(session_id);
-        user.save();
+        session = await prisma.session.create({
+            data: {
+                session_id: session_id,
+                user: { connect: { id: user.id } },
+            },
+        });
     }
 
-    return jwt.token.generate({
-        session_id: session_id,
-        username: user.username
-    }, SESSION_SECRET_KEY);
-}
+    return jwt.token.generate(
+        {
+            userID: user.id,
+            session_id: session.session_id,
+            username: user.username,
+        },
+        { key: SESSION_SECRET_KEY }
+    );
+};
 
 const verifyToken = async (artifacts, request, h) => {
-    const usr = await user.findOne({ username: artifacts.decoded.payload.username });
-    if(!usr) return { response: await errorResponse(h, 401, "bad_token") };
+    const userId = artifacts.decoded.payload.userID;
+    const session_id = artifacts.decoded.payload.session_id;
 
-    if(request.path === "/auth/totp" && usr.totpSessions.includes(artifacts.decoded.payload.session_id)) return { isValid: true, credentials: usr };
+    if (request.path === "/auth/totp") {
+        const totpSession = await prisma.totpSessions.findFirst({
+            where: {
+                userId: userId,
+                session_id: session_id
+            }
+        });
 
-    if(usr.sessions.includes(artifacts.decoded.payload.session_id)) return { isValid: true, credentials: usr };
+        if (totpSession) {
+            return { isValid: true, credentials: request.auth.credentials };
+        }
+    } else {
+        const session = await prisma.session.findFirst({
+            where: {
+                userId: userId,
+                session_id: session_id
+            }
+        });
 
-    return { response: await errorResponse(h, 401, "bad_token") };
-}
+        if (session) {
+            return { isValid: true, credentials: request.auth.credentials };
+        }
+    }
+
+    return { response: await errorResponse(h, 401, "Invalid token: invalid session") };
+};
 
 module.exports = { issueToken, verifyToken };

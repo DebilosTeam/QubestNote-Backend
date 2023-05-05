@@ -1,7 +1,12 @@
-const { createUserSchema } = require("./auth/register");
+// Auth
 const { loginSchema } = require("./auth/login");
+const { createUserSchema } = require("./auth/register");
 const { totpSchema } = require("./settings/security/totp");
 const { totpAuthSchema } = require("./auth/totp");
-const { changePasswdSchema } = require("./settings/security/change-password")
 
-module.exports = { createUserSchema, loginSchema, totpSchema, totpAuthSchema, changePasswdSchema };
+// Settings
+const { changeDescriptionSchema } = require("./settings/main/changeDescription");
+const { changePasswdSchema } = require("./settings/security/changePassword");
+const { changeNicknameSchema } = require("./settings/main/changeNickname");
+
+module.exports = { createUserSchema, loginSchema, totpSchema, totpAuthSchema, changePasswdSchema, changeNicknameSchema, changeDescriptionSchema };

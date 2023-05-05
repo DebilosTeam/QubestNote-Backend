@@ -1,23 +1,44 @@
 const { totpAuthSchema } = require("../../schemas");
 const { errorResponse, successResponse } = require("../../utils");
+
+const prisma = require("../../database");
+
 const speakeasy = require('speakeasy');
 
 const login = async (request, h) => {
-    const usr = request.auth.credentials;
+    const auth = request.auth.credentials;
+    const user = await prisma.users.findFirst({
+        where: { username: auth.username }
+    })
 
-    if(!usr.totpStatus) return await errorResponse(h, 403, "totp_not_enabled");
+    if(!user.totpStatus) return await errorResponse(h, 403, "totp_not_enabled");
 
     const verified = speakeasy.totp.verify({
-        secret: usr.secretKey,
+        secret: user.secretKey,
         encoding: 'base32',
         token: request.payload.code
     });
 
-    if(!verified) return await errorResponse(h, 403, "wrong_totp_code");
+    if(!verified) return await errorResponse(h, 403, "Incorrect code");
 
-    await usr.sessions.push(request.auth.artifacts.decoded.payload.session_id);
-    await usr.totpSessions.splice(usr.totpSessions.indexOf(request.auth.artifacts.decoded.payload.session_id), 1);
-    await usr.save();
+
+    const session_id = request.auth.artifacts.decoded.payload.session_id;
+    const user_id = request.auth.artifacts.decoded.payload.userID;
+
+    await prisma.users.update({
+        where: { id: user_id },
+        data: {
+            sessions: {
+                create: { session_id }
+            },
+            totpSessions: {
+                deleteMany: {
+                    userId: user_id,
+                    session_id,
+                }
+            }
+        }
+    });
 
     return await successResponse(h);
 }

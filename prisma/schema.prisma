@@ -1,0 +1,57 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model users {
+  id                Int            @id @default(autoincrement())
+  username          String         @unique
+  email             String         @unique
+  password          String
+  createdAt         DateTime       @default(now())
+  secretKey         String?        @default("")
+  totpStatus        Boolean?       @default(false)
+  isAdmin           Boolean?       @default(false)
+  isModerator       Boolean?       @default(false)
+  emailConfirmed    Boolean?       @default(false)
+  confirmationToken String?        @default("")
+  isDisabled        Boolean?       @default(false)
+  nickname          String
+  avatarUrl         String?        @default("")
+  description       String?        @default("")
+  sessions          session[]
+  totpSessions      totpSessions[]
+}
+
+model totpSessions {
+  id         Int      @id @default(autoincrement())
+  userId     Int
+  user       users    @relation(fields: [userId], references: [id])
+  session_id String
+  createdAt  DateTime @default(now())
+}
+
+model session {
+  id         Int      @id @default(autoincrement())
+  userId     Int
+  user       users    @relation(fields: [userId], references: [id])
+  session_id String
+  createdAt  DateTime @default(now())
+}
+
+model server_configuration {
+  id           Int      @id @default(autoincrement())
+  smtpHost     String?
+  smtpPort     Int?
+  smtpSecure   Boolean?
+  smtpUser     String?
+  smtpPassword String?
+  totpIssuer   String?  @default("QubestNote")
+}

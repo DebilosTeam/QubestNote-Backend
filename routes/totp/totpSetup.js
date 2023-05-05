@@ -1,12 +1,12 @@
-const prisma = require("../../../database");
-const { totpSchema } = require("../../../schemas");
-const { successResponse, errorResponse } = require("../../../utils");
+const prisma = require("../../database");
 
+const { totpSchema } = require("../../schemas");
+const { successResponse, errorResponse } = require("../../utils");
 
 const speakeasy = require('speakeasy');
 const QRcode = require("qrcode");
 
-const totp = async (request, h) => {
+const totpSetup = async (request, h) => {
     const auth = request.auth.credentials;
     const user = await prisma.users.findFirst({
         where: {
@@ -22,7 +22,7 @@ const totp = async (request, h) => {
         return successResponse(h, { enabled: false });
     }
 
-    if (request.payload.firstCode && !user.secretKey) return errorResponse(h, 425, "activation_not_started");
+    if (request.payload.firstCode && !user.secretKey) return errorResponse(h, 425, "Activation not started");
 
     if (request.payload.firstCode) {
         const verified = speakeasy.totp.verify({
@@ -39,7 +39,7 @@ const totp = async (request, h) => {
             return successResponse(h, { enabled: true });
         }
 
-        return errorResponse(h, 409, "wrong_code");
+        return errorResponse(h, 409, "Invalid code");
     }
 
     const secret = speakeasy.generateSecret({name: `QubestNote (${user.nickname})`});
@@ -56,10 +56,18 @@ const totp = async (request, h) => {
 
 module.exports = {
     method: 'POST', 
-    path: '/api/settings/totp',
+    path: '/totp/control',
     options: {
-        validate: { payload: totpSchema, failAction: async (request, h, err) => await errorResponse(h, 400, "bad_payload") },
-        payload: { allow: "application/json", failAction: async (request, h, err) => await errorResponse(h, 415, "bad_payload_format") } 
+        validate: {
+            payload: totpSchema,
+            failAction: async (request, h, err) =>
+                await errorResponse(h, 400, "Bad payload")
+        },
+        payload: {
+            allow: "application/json",
+            failAction: async (request, h, err) =>
+                await errorResponse(h, 415, "Bad payload format")
+        }
     },
-    handler: totp
+    handler: totpSetup
 }

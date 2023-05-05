@@ -1,8 +1,9 @@
+const prisma = require("../../database");
 const mailsender = require("../../utils");
+
 const { randomBytes } = require('crypto');
 
-const prisma = require("../../database");
-const { errorResponse, successResponse } = require("../../utils");
+const { successResponse, errorResponse } = require("../../utils");
 
 const confirmEmail = async (request, h) => {
     const auth = request.auth.credentials;
@@ -51,6 +52,6 @@ const confirmEmail = async (request, h) => {
 
 module.exports = {
     method: 'POST',
-    path: '/api/email-confirmation',
+    path: '/email-confirmation',
     handler: confirmEmail
 }

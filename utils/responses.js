@@ -15,7 +15,7 @@ const successResponse = async (h, data = {}) => {
         await h.response(
             {
                 success: true,
-                data: data
+                data
             }
         ).code(200)
     )

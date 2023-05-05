@@ -1,4 +1,5 @@
 const prisma = require("../../database");
+
 const { errorResponse } = require("../responses");
 
 const isUserUnique = async (request, h) => {
@@ -16,8 +17,8 @@ const isUserUnique = async (request, h) => {
     }
 
     const errorMessage = userCheck.username === request.payload.username
-        ? 'username_already_registered'
-        : 'email_already_registered';
+        ? 'Username already registered'
+        : 'Email already registered';
 
     return await errorResponse(h, 400, errorMessage);
 };

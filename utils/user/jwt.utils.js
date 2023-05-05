@@ -1,9 +1,10 @@
-const jwt = require("@hapi/jwt");
-const uuid = require("uuid");
+const prisma = require("../../database");
 
 const { SESSION_SECRET_KEY } = require("../../config");
-const prisma = require("../../database");
 const { errorResponse } = require("../responses");
+
+const jwt = require("@hapi/jwt");
+const uuid = require("uuid");
 
 const issueToken = async (user) => {
     if (user.isDisabled) return false;

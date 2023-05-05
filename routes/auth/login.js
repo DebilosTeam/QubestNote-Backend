@@ -1,6 +1,7 @@
 const prisma = require("../../database");
+
 const { loginSchema } = require("../../schemas");
-const { comparePassword, issueToken, errorResponse, successResponse } = require("../../utils");
+const { successResponse, errorResponse, comparePassword, issueToken } = require("../../utils");
 
 const login = async (request, h) => {
     const usr = await prisma.users.findFirst({
@@ -32,8 +33,16 @@ module.exports = {
     path: '/auth/login',
     options: { 
         auth: false, 
-        validate: { payload: loginSchema, failAction: async (request, h, err) => await errorResponse(h, 400, "bad_payload") },
-        payload: { allow: "application/json", failAction: async (request, h, err) => await errorResponse(h, 415, "bad_payload_format") } 
+        validate: {
+            payload: loginSchema,
+            failAction: async (request, h, err) =>
+                await errorResponse(h, 400, "Bad payload")
+        },
+        payload: {
+            allow: "application/json",
+            failAction: async (request, h, err) =>
+                await errorResponse(h, 415, "Bad payload format")
+        }
     }, 
     handler: login
 }

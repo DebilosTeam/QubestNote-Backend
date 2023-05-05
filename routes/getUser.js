@@ -1,5 +1,6 @@
 const prisma = require("../database");
-const { errorResponse, successResponse } = require("../utils");
+
+const { successResponse, errorResponse } = require("../utils");
 
 
 const getUser = async (request, h) => {

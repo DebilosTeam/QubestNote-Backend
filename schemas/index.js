@@ -1,12 +1,12 @@
 // Auth
 const { loginSchema } = require("./auth/login");
 const { createUserSchema } = require("./auth/register");
-const { totpSchema } = require("./settings/security/totp");
-const { totpAuthSchema } = require("./auth/totp");
+const { totpAuthSchema } = require("./totp/totpVerify");
 
 // Settings
-const { changeDescriptionSchema } = require("./settings/main/changeDescription");
-const { changePasswdSchema } = require("./settings/security/changePassword");
-const { changeNicknameSchema } = require("./settings/main/changeNickname");
+const { totpSchema } = require("./totp/totpControl");
+const { changePasswdSchema } = require("./auth/changePassword");
+const { changeNicknameSchema } = require("./users/changeNickname");
+const { changeDescriptionSchema } = require("./users/changeDescription");
 
 module.exports = { createUserSchema, loginSchema, totpSchema, totpAuthSchema, changePasswdSchema, changeNicknameSchema, changeDescriptionSchema };

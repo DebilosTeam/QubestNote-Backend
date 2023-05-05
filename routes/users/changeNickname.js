@@ -1,6 +1,7 @@
-const prisma = require("../../../database");
-const { changeNicknameSchema } = require("../../../utils");
-const { successResponse, errorResponse } = require("../../../utils");
+const prisma = require("../../database");
+
+const { changeNicknameSchema } = require("../../utils");
+const { successResponse, errorResponse } = require("../../utils");
 
 const changeNickname = async (request, h) => {
     const auth = request.auth.credentials;
@@ -21,10 +22,18 @@ const changeNickname = async (request, h) => {
 
 module.exports = {
     method: 'POST',
-    path: '/api/settings/change-nickname',
+    path: '/users/change-nickname',
     options: {
-        validate: { payload: changeNicknameSchema, failAction: async (request, h, err) => await errorResponse(h, 400, "Bad payload") },
-        payload: { allow: "application/json", failAction: async (request, h, err) => await errorResponse(h, 415, "Bad payload format") }
+        validate: {
+            payload: changeNicknameSchema,
+            failAction: async (request, h, err) =>
+                await errorResponse(h, 400, "Bad payload")
+        },
+        payload: {
+            allow: "application/json",
+            failAction: async (request, h, err) =>
+                await errorResponse(h, 415, "Bad payload format")
+        }
     },
     handler: changeNickname
 }

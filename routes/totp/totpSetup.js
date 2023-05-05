@@ -56,7 +56,7 @@ const totpSetup = async (request, h) => {
 
 module.exports = {
     method: 'POST', 
-    path: '/totp/control',
+    path: '/totp/setup',
     options: {
         validate: {
             payload: totpSchema,

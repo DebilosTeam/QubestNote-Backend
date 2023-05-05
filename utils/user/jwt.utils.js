@@ -42,7 +42,7 @@ const verifyToken = async (artifacts, request, h) => {
     const userId = artifacts.decoded.payload.userID;
     const session_id = artifacts.decoded.payload.session_id;
 
-    if (request.path === "/auth/totp") {
+    if (request.path === "/totp/verify") {
         const totpSession = await prisma.totpSessions.findFirst({
             where: {
                 userId: userId,

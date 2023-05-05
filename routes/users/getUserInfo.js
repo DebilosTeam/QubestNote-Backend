@@ -1,11 +1,11 @@
-const prisma = require("../database");
+const prisma = require("../../database");
 
-const { successResponse, errorResponse } = require("../utils");
+const { successResponse, errorResponse } = require("../../utils");
 
 
-const getUser = async (request, h) => {
-    const id = parseInt(request.query.id);
-    
+const getUserInfo = async (request, h) => {
+    const id = parseInt(request.params.id);
+
     const users = await prisma.users.findUnique({
         where: { id: id }
     });
@@ -23,8 +23,8 @@ const getUser = async (request, h) => {
 module.exports = {
     method: 'GET',
     options: {
-       auth: false
+        auth: false
     },
-    path: '/get-user',
-    handler: getUser
+    path: '/users/{id}',
+    handler: getUserInfo
 }

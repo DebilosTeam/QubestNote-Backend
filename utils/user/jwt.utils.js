@@ -12,6 +12,7 @@ const issueToken = async (user) => {
     const session_id = uuid.v4();
 
     let session;
+
     if (user.totpStatus) {
         session = await prisma.totpSessions.create({
             data: {
@@ -30,22 +31,22 @@ const issueToken = async (user) => {
 
     return jwt.token.generate(
         {
-            userID: user.id,
-            session_id: session.session_id,
+            id: user.id,
             username: user.username,
+            session_id: session.session_id
         },
         { key: SESSION_SECRET_KEY }
     );
 };
 
 const verifyToken = async (artifacts, request, h) => {
-    const userId = artifacts.decoded.payload.userID;
+    const user_id = artifacts.decoded.payload.id;
     const session_id = artifacts.decoded.payload.session_id;
 
     if (request.path === "/totp/verify") {
         const totpSession = await prisma.totpSessions.findFirst({
             where: {
-                userId: userId,
+                userId: user_id,
                 session_id: session_id
             }
         });
@@ -53,10 +54,11 @@ const verifyToken = async (artifacts, request, h) => {
         if (totpSession) {
             return { isValid: true, credentials: request.auth.credentials };
         }
+
     } else {
         const session = await prisma.session.findFirst({
             where: {
-                userId: userId,
+                userId: user_id,
                 session_id: session_id
             }
         });

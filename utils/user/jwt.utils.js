@@ -1,10 +1,11 @@
 const prisma = require("../../database");
 
-const { SESSION_SECRET_KEY } = require("../../config");
 const { errorResponse } = require("../responses");
 
 const jwt = require("@hapi/jwt");
 const uuid = require("uuid");
+
+require("dotenv").config();
 
 const issueToken = async (user) => {
     if (user.isDisabled) return false;
@@ -35,7 +36,7 @@ const issueToken = async (user) => {
             username: user.username,
             session_id: session.session_id
         },
-        { key: SESSION_SECRET_KEY }
+        { key: process.env.SESSION_SECRET_KEY }
     );
 };
 

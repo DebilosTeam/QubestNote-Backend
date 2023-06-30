@@ -1,11 +1,10 @@
 const Hapi = require('@hapi/hapi');
 const jwt = require('@hapi/jwt');
-const { SESSION_SECRET_KEY } = require("./config");
 const { verifyToken, errorResponse } = require("./utils");
 const glob = require('glob');
 const path = require('path');
 
-
+require('dotenv').config();
 require('./database');
 
 const init = async () => {
@@ -36,7 +35,7 @@ const init = async () => {
 
     server.auth.strategy('jwt', 'jwt', {
         keys: {
-            key: SESSION_SECRET_KEY,
+            key: process.env.SESSION_SECRET_KEY,
             algorithms: ['HS256']
         },
         verify: {
@@ -54,9 +53,7 @@ const init = async () => {
 };
 
 process.on('unhandledRejection', (err) => {
-
     console.log(err);
-    //process.exit(1);
 });
 
 init();

@@ -3,7 +3,7 @@ const prisma = require("../../database");
 const { loginSchema } = require("../../schemas");
 const { successResponse, errorResponse, comparePassword, issueToken } = require("../../utils");
 
-const login = async (request, h) => {
+const signinRoute = async (request, h) => {
     const usr = await prisma.users.findFirst({
         where: {
             OR: [
@@ -13,9 +13,7 @@ const login = async (request, h) => {
         },
     });
 
-    let failure;
-
-    if(!usr) failure = "user_not_found";
+    if(!usr) return await errorResponse(h, 404, "User not found");
 
     const passCheck = await comparePassword(request.payload.password, usr.password);
     if(!passCheck) return await errorResponse(h, 401, "Invalid password");
@@ -44,5 +42,5 @@ module.exports = {
                 await errorResponse(h, 415, "Bad payload format")
         }
     }, 
-    handler: login
+    handler: signinRoute
 }

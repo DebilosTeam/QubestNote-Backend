@@ -11,7 +11,7 @@
     "argon2": "^0.30.3",
     "glob": "^8.0.3",
     "joi": "^17.7.0",
-    "mongoose": "^6.7.5",
+    "mongoose": "^6.11.3",
     "nodemailer": "^6.9.1",
     "qrcode": "^1.5.1",
     "speakeasy": "^2.0.0",

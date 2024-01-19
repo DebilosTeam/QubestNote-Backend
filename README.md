@@ -3,12 +3,12 @@
 </div>
 
 <div align="center">
-    <b>API for a QubestNote written in JS and hapi.</b><br>
-    <a href="https://gitlab.com/DebilosTeam/QubestNote-API/-/issues">Send bug report</a>
+    <b>API for a QubestNote written in TS and NestJS.</b><br>
+    <a href="https://github.com/DebilosTeam/QubestNote-API/issues">Send bug report</a>
     •
-    <a href="https://gitlab.com/DebilosTeam/QubestNote-API#something-is-broken-right-now">Broked features</a>
+    <a href="https://github.com/DebilosTeam/QubestNote-API#something-is-broken-right-now">Broked features</a>
     •
-    <a href="https://gitlab.com/DebilosTeam/QubestNote-API#licenses">Licenses</a>
+    <a href="https://github.com/DebilosTeam/QubestNote-API#licenses">Licenses</a>
 </div>
 
 
@@ -16,7 +16,7 @@
 - [X] Basic server
 - [X] Databases
 - [X] Account system (with password encryption and JWT tokens)
-- [X] Two-factor authentification.
+- [ ] Two-factor authentification.
 - [ ] Text uploading
 - [ ] Email settings
 - [ ] Admin settings
@@ -24,8 +24,7 @@
 
 
 ## Documentation
-Documentation can be found [here](https://gitlab.com/DebilosTeam/QubestNote-API/-/wikis/Home)
-
+Will be writed in the future
 
 ## Something is broken right now
 Nothing is broken
@@ -36,4 +35,4 @@ Feel free to fork this repo and make a pull request or create an issue, if you e
 
 
 ## License
-The project licensed under [MIT License](https://gitlab.com/DebilosTeam/QubestNote-API/-/blob/main/LICENSE)
+The project licensed under [GNU Affero General Public License 3](https://github.com/DebilosTeam/QubestNote-API/blob/main/LICENSE)

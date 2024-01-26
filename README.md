@@ -15,7 +15,7 @@
 ## TODO
 - [X] Basic server
 - [X] Databases
-- [=] Authorization, sessions, password hashing
+- [ ] Authorization, sessions, password hashing
 - [ ] Two-factor authentification.
 - [ ] Text uploading
 - [ ] Email settings

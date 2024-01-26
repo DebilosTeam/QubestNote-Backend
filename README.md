@@ -13,14 +13,13 @@
 
 
 ## TODO
-- [X] Basic server
-- [X] Databases
 - [ ] Authorization, sessions, password hashing
+- [ ] Databases interactions
 - [ ] Two-factor authentification.
 - [ ] Text uploading
 - [ ] Email settings
 - [ ] Admin settings
-- [ ] Moderating system
+- [ ] Roles system
 
 
 ## Documentation

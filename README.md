@@ -27,7 +27,8 @@
 Will be writed in the future
 
 ## Something is broken right now
-Nothing is broken
+Database migration
+Database interactions
 
 
 ## How can I help?

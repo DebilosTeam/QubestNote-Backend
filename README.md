@@ -15,7 +15,7 @@
 ## TODO
 - [X] Basic server
 - [X] Databases
-- [X] Account system (with password encryption and JWT tokens)
+- [=] Authorization, sessions, password hashing
 - [ ] Two-factor authentification.
 - [ ] Text uploading
 - [ ] Email settings

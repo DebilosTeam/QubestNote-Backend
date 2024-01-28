@@ -12,7 +12,7 @@ import { SessionSerializer } from './auth.session.serializer';
 @Module({
     imports: [UsersModule, PassportModule.register({
         session: true
-        })
+    })
     ],
     providers: [AuthService, LocalStrategy, SessionSerializer],
 })

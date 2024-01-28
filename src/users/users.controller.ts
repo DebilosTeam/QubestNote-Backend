@@ -2,16 +2,17 @@ import {
     Controller,
     Body,
     Post,
+    Get,
     Request,
     UseGuards
 } from '@nestjs/common';
 
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
-import { LoginUserDto } from './dto/login-user.dto';
 
 import { AuthService } from 'src/auth/auth.service';
-import { LocalAuthGuard } from 'src/auth/local-auth.guard';
+import { LocalAuthGuard } from 'src/auth/guards/local.guard';
+import { AuthenticatedGuard } from 'src/auth/guards/authenticated.guard';
 
 @Controller('users')
 export class UsersController {
@@ -27,5 +28,13 @@ export class UsersController {
 
     @UseGuards(LocalAuthGuard)
     @Post('signin')
-    async loginUser() {}
+    async loginUser(@Request() req) {
+        return { status_code: 200, message: "Successfully logged in!" };
+    }
+
+    @UseGuards(AuthenticatedGuard)
+    @Get('protected')
+    async getAuthenticatedUser(@Request() req) {
+        return req.user;
+    }
 }

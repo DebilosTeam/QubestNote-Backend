@@ -1,25 +1,31 @@
-import { Controller, Body, Post } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
-
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { Users } from './entities/users.entity';
+import {
+    Controller,
+    Body,
+    Post,
+    Request,
+    UseGuards
+} from '@nestjs/common';
 
 import { UsersService } from './users.service';
+import { CreateUserDto } from './dto/create-user.dto';
+import { LoginUserDto } from './dto/login-user.dto';
+
+import { AuthService } from 'src/auth/auth.service';
+import { LocalAuthGuard } from 'src/auth/local-auth.guard';
 
 @Controller('users')
 export class UsersController {
     constructor(
-      private readonly usersService: UsersService
+        private readonly userService: UsersService,
+        private readonly authService: AuthService,
     ) {}
-  
-    @Post("signup")
+
+    @Post('signup')
     async createUser(@Body() createUserDto: CreateUserDto) {
-        return this.usersService.insert(createUserDto);
+        return this.userService.insertUser(createUserDto);
     }
-    
-    // @Post("signin")
-    // async loginAccount(@Body() userInput: Prisma.usersCreateInput) {
-    //   return this.usersService.enter(userInput);
-    // }
+
+    @UseGuards(LocalAuthGuard)
+    @Post('signin')
+    async loginUser() {}
 }

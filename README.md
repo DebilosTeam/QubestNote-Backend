@@ -4,17 +4,17 @@
 
 <div align="center">
     <b>API for a QubestNote written in TS and NestJS.</b><br>
-    <a href="https://github.com/DebilosTeam/QubestNote-API/issues">Send bug report</a>
+    <a href="https://github.com/DebilosTeam/QubestNote-Backend/issues">Send bug report</a>
     •
-    <a href="https://github.com/DebilosTeam/QubestNote-API#something-is-broken-right-now">Broked features</a>
+    <a href="https://github.com/DebilosTeam/QubestNote-Backend#something-is-broken-right-now">Broked features</a>
     •
-    <a href="https://github.com/DebilosTeam/QubestNote-API#licenses">Licenses</a>
+    <a href="https://github.com/DebilosTeam/QubestNote-Backend#licenses">Licenses</a>
 </div>
 
 
 ## TODO
-- [ ] Authorization, sessions, password hashing
-- [ ] Databases interactions
+- [X] Authorization, sessions, password hashing (Partially completed)
+- [X] Databases interactions
 - [ ] Two-factor authentification.
 - [ ] Text uploading
 - [ ] Email settings
@@ -26,9 +26,7 @@
 Will be writed in the future
 
 ## Something is broken right now
-Database migration
-
-Database interactions
+Nothing is broken
 
 
 ## How can I help?
